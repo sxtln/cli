@@ -12,7 +12,7 @@ The config file is a yaml file
 * [auth](#auth)
 * [Config](#Config)
 
-## installation
+# Installation
 
 Look for the [latest version at releases](https://github.com/sxtln/cli/releases/latest). 
 Each release has 3 files, 
@@ -29,27 +29,19 @@ sudo chmod +x /usr/local/bin/sxtln
 
 That's it. you are ready to go.
 
-## General format
-
-The format of the command is `sxtln [global flags] <command> <subcommand> <command flags> [parameters]` 
-
-The output can be in json or yaml format. In this document only the json format is shown as output
-
-You can set the output of the cli by using `-o` or `--output`. possible values are "json" or "yaml"
-
-## Commands
+# Commands
 
 A list of all the command
 
-### Cluster
+## Cluster
 
 Command to deploy view and destroy a cluster. Follow are sub commands of cluster
 
-#### ls
+### ls
 
 list your allocated clusters. If you add the name of a cluster this will show only that cluster info. If the cluster does not exists the command return none zero  
 
-##### example
+#### example
 
 ```bash
 
@@ -81,7 +73,7 @@ single cluster:
 ```
 
 
-#### create
+### create
 
 create a new cluster. 
 
@@ -92,14 +84,14 @@ possible flags are:
 - __force__, __f__ optional force create even if a cluster with the same name exists
 - __wait__, __w__ optional wait until the cluster is created or destroyed
 
-##### example
+#### example
 
 ```bash
 sxtln cluster create [--name <optionaly, name of cluster>] [--type <optionaly, type of node of the cluster>]  [--count <number of nodes> default 1] 
 
 ```
 
-#### delete
+### delete
 
 delete a cluster. 
 
@@ -108,7 +100,7 @@ possible flags are:
 - __id__, __i__ id of the cluster to delete
 
 
-##### example
+#### example
 
 ```bash
 
@@ -120,7 +112,7 @@ sxtln cluster delete -i <id of cluster to delete>
 
 ```
 
-#### config, kube-config, kubeconfig, kc
+### config, kube-config, kubeconfig, kc
 
 get a cluster kubeconfig file. Output is in plain text
 
@@ -129,7 +121,7 @@ possible flags are:
 - __id__, __i__ id of the cluster to delete
 
 
-##### example
+#### example
 
 ```bash
 
@@ -152,11 +144,11 @@ sxtln cluster kube-config -i <id of cluster to delete>
 > Note: Do not confuse with `sxtln config` command
 
 
-### auth
+## auth
 
 Handle authentication with sextillion api server
 
-#### check
+### check
 
 Checks if apiKey or token are valid
 
@@ -164,7 +156,7 @@ Returns `{"ok":true/false}`
 
 if failed to test with server exit code will not be zero
 
-##### example
+#### example
 
 command
 
@@ -181,7 +173,7 @@ output
 ```
 
 
-#### login
+### login
 
 login with user password to server. If succeeded the token is saved as part of the config.token 
 
@@ -189,7 +181,7 @@ Returns `{"token": "token value"}`
 
 if failed to test with server exit code will not be zero
 
-##### example
+#### example
 
 command
 
@@ -209,13 +201,13 @@ output
 
 ```
 
-#### set-apikey
+### set-apikey
 
 set api key on local machine. You generate your api key via the web interface under user settings
 
 Returns sxtln config as json or yaml
 
-##### example
+#### example
 
 command
 
@@ -234,13 +226,13 @@ sxtln config as json
 
 
 
-#### logout
+### logout
 
 logout by clearing the token field from the configuration
 
 Returns sxtln config as json or yaml
 
-##### example
+#### example
 
 command
 
@@ -254,11 +246,11 @@ output
 sxtln config as json or yaml
 
 
-### Config
+## Config
 
 set, get or view sxtln configuration. Follow are sub commands of config
 
-#### get
+### get
 
 Get one of the configuration fields
 
@@ -290,11 +282,11 @@ output Json with the field value
 
 ```
 
-#### set
+### set
 
 Set one of the configuration fields. Can only be token, apiKey or output
 
-##### example
+#### example
 
 get the apiKey of configuration
 
@@ -311,11 +303,11 @@ sxtln config get -k apikey "newApiKey"
 output all config fields as json or yaml
 
 
-#### view
+### view
 
 Set one of the configuration fields. Can only be token, apiKey or output
 
-##### example
+#### example
 
 get the apiKey of configuration
 
@@ -327,3 +319,10 @@ sxtln config view
 
 output all config fields as json or yaml
 
+# General format
+
+The format of the command is `sxtln [global flags] <command> <subcommand> <command flags> [parameters]` 
+
+The output can be in json or yaml format. In this document only the json format is shown as output
+
+You can set the output of the cli by using `-o` or `--output`. possible values are "json" or "yaml"
