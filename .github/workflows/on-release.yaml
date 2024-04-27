@@ -1,0 +1,35 @@
+name: build release
+
+on:
+  release:
+    types:  [published]
+
+jobs:
+  build:
+    permissions: 
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.22'
+
+    - name: Build linux
+      run: go build -v -o sxtln
+
+    - name: Build windows
+      run: GOOS=windows GOARCH=amd64 go build -v -o sxtln.exe
+
+    - name: Build MacOs
+      run: GOOS=darwin GOARCH=amd64 go build -v -o sxtln-darwin
+
+    - name: upload release assets
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release upload ${{github.ref_name}} sxtln 
+        gh release upload ${{github.ref_name}} sxtln.exe
+        gh release upload ${{github.ref_name}} sxtln-darwin
