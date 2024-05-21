@@ -405,18 +405,6 @@ func doGetConfig(config *models.Config, key string) models.JSON {
 ////////////////////////////////////////////////////////////////////////
 
 func handleAuth(config *models.Config, args []string) {
-	var user string
-	var pwd string
-	var apiKey string
-	authFlags := flag.NewFlagSet("auth", flag.ExitOnError)
-
-	authFlags.StringVar(&user, "u", "", "user name")
-	authFlags.StringVar(&user, "user", user, "user name")
-
-	authFlags.StringVar(&pwd, "p", "", "password")
-	authFlags.StringVar(&pwd, "password", pwd, "password")
-	authFlags.StringVar(&apiKey, "k", "", "api key")
-	authFlags.StringVar(&apiKey, "key", apiKey, "api key")
 
 	if len(args) < 1 {
 		exitIfErr(fmt.Errorf(`auth command as the following sub commands:
@@ -429,16 +417,28 @@ func handleAuth(config *models.Config, args []string) {
 
 	subCommand := strings.ToLower(args[0])
 
-	authFlags.Parse(args[1:])
-
 	switch subCommand {
 	case "check":
 		res := checkAuth(config)
 		print(config, res)
 	case "set-apikey":
+		var apiKey string
+		setApikeyFlags := flag.NewFlagSet("set-apikey", flag.ExitOnError)
+		setApikeyFlags.StringVar(&apiKey, "k", "", "api key")
+		setApikeyFlags.StringVar(&apiKey, "key", apiKey, "api key")
+		setApikeyFlags.Parse(args[1:])
 		res := setApiKey(config, apiKey)
 		print(config, res)
 	case "login":
+		var user string
+		var pwd string
+		authLoginFlags := flag.NewFlagSet("login", flag.ExitOnError)
+		authLoginFlags.StringVar(&user, "u", "", "user name")
+		authLoginFlags.StringVar(&user, "user", user, "user name")
+
+		authLoginFlags.StringVar(&pwd, "p", "", "password")
+		authLoginFlags.StringVar(&pwd, "password", pwd, "password")
+		authLoginFlags.Parse(args[1:])
 		res := doLogin(config, user, pwd)
 		print(config, res)
 	case "logout":
